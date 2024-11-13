@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Chart from "./Components/Chart";
+import Filters from "./Components/Filters";
+import { useState } from "react";
 
 function App() {
+  const [numDays, setNumDays] = useState(1);
+  const [dateText, setDateText] = useState(null);
+
+  const timeRangeHandler = (daysValue) => {
+    setNumDays(daysValue);
+  };
+
+  const dateChangeHandler = (dateValue) => {
+    setDateText(dateValue);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Filters
+        timeRangeHandler={timeRangeHandler}
+        numDays={numDays}
+        dateChangeHandler={dateChangeHandler}
+        selectedDate={dateText}
+      />
+      <Chart
+        numDays={numDays}
+        key={`${numDays} ${dateText}`}
+        dateValue={dateText}
+      />
     </div>
   );
 }
