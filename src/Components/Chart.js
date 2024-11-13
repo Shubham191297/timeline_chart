@@ -4,6 +4,11 @@ import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
 import data from "../data/data.json";
 import { listTransform } from "../utils/ListTransform";
+import {
+  TimelineHeaders,
+  DateHeader,
+  SidebarHeader,
+} from "react-calendar-timeline";
 
 const Chart = ({ numDays, dateValue }) => {
   const [groupNames, setGroupNames] = useState([]);
@@ -49,7 +54,17 @@ const Chart = ({ numDays, dateValue }) => {
 
   return (
     <div>
-      <h2>{dateValue?.format("DD MMMM YYYY")}</h2>
+      {dateValue && (
+        <h2>
+          {numDays === 1
+            ? dateValue?.format("DD MMMM YYYY")
+            : numDays < 30
+            ? `${dateValue?.format("DD MMMM YYYY")} - ${dateValue
+                ?.add(numDays - 1, "days")
+                .format("DD MMMM YYYY")}`
+            : dateValue.format("MMMM YYYY")}
+        </h2>
+      )}
       <Timeline
         groups={groupNames}
         items={itemsList}
@@ -82,12 +97,30 @@ const Chart = ({ numDays, dateValue }) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {itemContext.title}
+                {itemContext?.title}
               </div>
             </div>
           );
         }}
-      />
+      >
+        <TimelineHeaders>
+          <SidebarHeader>
+            {({ getRootProps }) => {
+              return <div {...getRootProps()}>Filter</div>;
+            }}
+          </SidebarHeader>
+          {numDays === 14 ? (
+            <DateHeader unit="day" labelFormat="ddd DD MMM" />
+          ) : (
+            <DateHeader unit={numDays < 30 ? "primaryHeader" : "week"} />
+          )}
+          {numDays === 30 ? (
+            <DateHeader labelFormat="DD" />
+          ) : (
+            <DateHeader unit="hour" />
+          )}
+        </TimelineHeaders>
+      </Timeline>
     </div>
   );
 };

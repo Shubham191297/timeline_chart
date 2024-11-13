@@ -7,9 +7,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { TextField } from "@mui/material";
-import moment from "moment";
-import { useState } from "react";
+import dayjs from "dayjs";
 
 const Filters = ({
   timeRangeHandler,
@@ -20,12 +18,6 @@ const Filters = ({
   const selectRangeHandler = (value) => {
     timeRangeHandler(value);
   };
-
-  //   const [selectedDate, setSelectedDate] = useState(null);
-
-  //   const handleDateChange = (newDate) => {
-  //     setSelectedDate(newDate);
-  //   };
 
   return (
     <Box sx={{ p: 2, m: 2, display: "flex", justifyContent: "space-between" }}>
@@ -38,20 +30,31 @@ const Filters = ({
                   label="Today"
                   value={selectedDate}
                   onChange={dateChangeHandler}
-                  //   renderInput={(params) => (
-                  //     <TextField {...params} sx={{ width: "100%" }} />
-                  //   )}
                 />
               </DemoContainer>
             </LocalizationProvider>
           </Grid>
           <Grid item size={{ xs: 4, md: 2 }} sx={{ width: "10px" }}>
-            <Button variant="outlined" onClick={() => {}}>
+            <Button
+              variant="outlined"
+              onClick={() =>
+                dateChangeHandler(
+                  (selectedDate ? selectedDate : dayjs()).add(-1, "days")
+                )
+              }
+            >
               {"<"}
             </Button>
           </Grid>
           <Grid item size={{ xs: 4, md: 2 }} sx={{ width: "10px" }}>
-            <Button variant="outlined" onClick={() => {}}>
+            <Button
+              variant="outlined"
+              onClick={() =>
+                dateChangeHandler(
+                  (selectedDate ? selectedDate : dayjs()).add(1, "days")
+                )
+              }
+            >
               {">"}
             </Button>
           </Grid>
