@@ -44,7 +44,6 @@ const Chart = ({ numDays, dateValue }) => {
   }, []);
 
   if (!groupNames.length || !itemsList.length) {
-    // Optionally render a loading state or return null to prevent Timeline rendering prematurely
     return <div>Loading...</div>;
   }
 
